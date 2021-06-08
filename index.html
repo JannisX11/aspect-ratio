@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ratio</title>
+	<style type="text/css">
+		
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-color: #121624;
+			font-size: 16pt;
+			color: white;
+			font-family: 'Raleway', 'Segoe UI', Sans-Serif;
+		}
+		h1, h2 {
+			font-weight: normal;
+		}
+		content {
+			display: block;
+			padding: 16px;
+			width: 500px;
+			height: 100%;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 32px;
+		}
+		content > div {
+			margin-top: 12px;
+			margin-bottom: 12px;
+		}
+		input {
+			style: none;
+			border: none;
+			padding: 4px;
+			font-size: 16px;
+			color: black;
+		}
+
+	</style>
+	<script src="https://code.jquery.com/jquery-latest.js"></script>
+	<script>
+
+		const cl = console.log;
+
+		function trimFloatNumber(val) {
+			if (val == '') return val;
+			var string = val.toFixed(4)
+			string = string.replace(/0+$/g, '').replace(/\.$/g, '')
+			return string;
+		}
+
+		function update() {
+
+			var nums = {
+				x: $('#in_x').val(),
+				y: $('#in_y').val(),
+				r: $('#out_x').val()
+			}
+			for (var n in nums) {
+				nums[n] = parseFloat(nums[n]);
+				if (isNaN(nums[n])) {
+					return;
+				}
+			}
+			var ratio = nums.x / nums.y;
+			var result = $('#invert').is(':checked')
+				? (nums.r * ratio)
+				: (nums.r / ratio)
+
+			$('#output').val(trimFloatNumber(result))
+		}
+
+		$(document).ready(e => {
+
+			$('input.input').on('input change', update)
+			$('input#invert').on('change', update)
+
+		})
+
+
+	</script>
+</head>
+<body>
+	<content>
+		<h2>Aspect Ratio Calculator</h2>
+		<div id="line_1">
+			<input class="input" id="in_x">
+			<input class="input" id="in_y">
+		</div>
+
+		<input type="checkbox" id="invert" name="invert">
+		<label for="invert">Invert</label>
+
+		<div id="line_2">
+			<input class="input" id="out_x">
+			<input id="output">
+		</div>
+	</content>
+</body>
+</html>
